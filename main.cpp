@@ -12,12 +12,14 @@
 #include "particleSystem.h"
 #include "tileMap.h"
 #include "levels.h"
+#include "enemy.h"
 
 struct ControlLogic
 {
     sf::RenderWindow window;
     sf::View view;
     Player playerSprite;
+    Enemy enemySprite;
 };
 
 std::mutex lockGuard;
@@ -66,6 +68,7 @@ void renderingThread(ControlLogic * logicContoller)
         logicContoller->window.clear();
         logicContoller->window.draw(map);
         logicContoller->window.draw(logicContoller->playerSprite);
+        logicContoller->window.draw(logicContoller->enemySprite);
         // logicContoller->window.draw(player);
         // std::for_each(entities.begin(), entities.end(), drawEntities);
         // logicContoller->window.draw(triangle, transform);
@@ -138,6 +141,8 @@ int main()
         {
             logicContoller.view.setSize(533.333333333f, 300.f);
         }
+
+        logicContoller.enemySprite.pathFind(logicContoller.playerSprite.getPosition());
     }
 
     return 0;
